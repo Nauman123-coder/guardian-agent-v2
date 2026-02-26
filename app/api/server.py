@@ -22,7 +22,20 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = FastAPI(title="Guardian Agent API", version="2.1.0")
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://localhost:3001",
+        os.getenv("FRONTEND_URL", ""),
+        os.getenv("RAILWAY_STATIC_URL", ""),
+        "https://*.railway.app",
+        "https://*.vercel.app",
+        "*",  # Remove this in production and list exact origins
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 _executor = ThreadPoolExecutor(max_workers=4)
 _ws_clients: dict[str, list[WebSocket]] = {}

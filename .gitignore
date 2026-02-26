@@ -1,32 +1,31 @@
-.env
-# Python bytecode / cache files
+# Python
 __pycache__/
 *.py[cod]
-*$py.class
-
-# Virtual environments (very common)
+*.pyo
 .venv/
 venv/
 env/
-.venv
+*.egg-info/
+dist/
+build/
 
-# Database — contains incident data
+# Environment — NEVER commit this
+.env
+
+# Database
 *.db
 *.sqlite
 *.sqlite3
+/tmp/
 
-# Logs — may contain sensitive data
+# Node
+frontend/node_modules/
+frontend/build/
+
+# Logs
 *.log
 watched_logs/
 scheduled_logs/
-
-# Node / React
-frontend/node_modules/
-frontend/build/
-node_modules/
-
-# Scheduler state
-guardian_scheduler_state.json
 
 # OS
 .DS_Store
@@ -36,8 +35,3 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
-
-# Distribution
-dist/
-build/
-*.egg-info/

@@ -20,6 +20,10 @@ from typing import Any
 
 DB_PATH = Path(os.getenv("GUARDIAN_STATE_DIR", "/tmp")) / "guardian_incidents.db"
 
+# On Railway, use /data volume if available (persistent storage)
+if Path("/data").exists():
+    DB_PATH = Path("/data/guardian_incidents.db")
+
 
 def _connect() -> sqlite3.Connection:
     conn = sqlite3.connect(str(DB_PATH))
@@ -181,9 +185,4 @@ def _row_to_dict(row: sqlite3.Row) -> dict[str, Any]:
         except (json.JSONDecodeError, TypeError):
             d[field] = []
     d["requires_approval"] = bool(d.get("requires_approval"))
-    # Always expose both 'id' and 'incident_id' so frontend works with either
-    if "id" in d and "incident_id" not in d:
-        d["incident_id"] = d["id"]
-    elif "incident_id" in d and "id" not in d:
-        d["id"] = d["incident_id"]
     return d

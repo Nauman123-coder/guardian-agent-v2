@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "https://YOUR-RAILWAY-BACKEND-URL.railway.app/api/$1"
+    },
+    {
+      "src": "/ws/(.*)",
+      "dest": "https://YOUR-RAILWAY-BACKEND-URL.railway.app/ws/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
