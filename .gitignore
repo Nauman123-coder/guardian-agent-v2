@@ -1,0 +1,43 @@
+.env
+# Python bytecode / cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments (very common)
+.venv/
+venv/
+env/
+.venv
+
+# Database — contains incident data
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs — may contain sensitive data
+*.log
+watched_logs/
+scheduled_logs/
+
+# Node / React
+frontend/node_modules/
+frontend/build/
+node_modules/
+
+# Scheduler state
+guardian_scheduler_state.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Distribution
+dist/
+build/
+*.egg-info/
