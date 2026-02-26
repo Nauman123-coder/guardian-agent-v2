@@ -1,8 +1,11 @@
+# nixpacks.toml
+providers = ["python"]   # ← This line is required to activate Python installation
+
 [phases.setup]
-nixPkgs = ["python311", "gcc"]
+nixPkgs = ["python311", "gcc"]   # python311 is fine; gcc helps if any deps need compilation
 
 [phases.install]
-cmds = ["pip install -r requirements.txt"]
+cmds = ["pip install --no-cache-dir -r requirements.txt"]   # optional: --no-cache-dir saves build space
 
 [start]
 cmd = "uvicorn app.api.server:app --host 0.0.0.0 --port $PORT"
