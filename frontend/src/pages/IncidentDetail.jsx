@@ -99,7 +99,7 @@ export default function IncidentDetail({ id, onBack }) {
         </div>
         <div style={{ marginLeft: 'auto', display: 'flex', gap: 12, alignItems: 'center' }}>
           <a
-            href={`http://localhost:8000/api/incidents/${id}/report.pdf`}
+            href={`${process.env.REACT_APP_API_URL || ''}/api/incidents/${id}/report.pdf`}
             target="_blank"
             rel="noreferrer"
             style={{

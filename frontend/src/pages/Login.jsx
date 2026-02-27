@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+const API_BASE = process.env.REACT_APP_API_URL || '';
+
 export default function Login({ onLogin }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -12,7 +14,7 @@ export default function Login({ onLogin }) {
     setLoading(true);
     setError('');
     try {
-      const res = await axios.post('/api/auth/login', { username, password });
+      const res = await axios.post(`${API_BASE}/api/auth/login`, { username, password });
       localStorage.setItem('guardian_token', res.data.access_token);
       localStorage.setItem('guardian_user', res.data.username);
       onLogin(res.data.username);

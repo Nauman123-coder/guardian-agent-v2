@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import axios from 'axios';
 
-const API = '';  // uses CRA proxy to localhost:8000
+const API = process.env.REACT_APP_API_URL || '';
 
 export function useStats() {
   const [stats, setStats] = useState(null);
